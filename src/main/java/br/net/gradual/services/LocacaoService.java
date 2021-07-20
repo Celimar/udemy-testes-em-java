@@ -4,6 +4,8 @@ import br.net.gradual.model.Filme;
 import br.net.gradual.model.Locacao;
 import br.net.gradual.model.Usuario;
 import br.net.gradual.utils.DataUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.Date;
 import static br.net.gradual.utils.DataUtils.adicionarDias;
@@ -28,7 +30,8 @@ public class LocacaoService {
 		return locacao;
 	}
 
-	public static void main(String[] args) {
+	@Test
+	public void teste() {
 		//cenário
 		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("user");
@@ -38,9 +41,12 @@ public class LocacaoService {
 		Locacao locacao = service.alugarFilme(usuario, filme);
 
 		//verificação
-		System.out.println(locacao.getValor() == 15.50);
-		System.out.println(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
-		System.out.println(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
+//		System.out.println(locacao.getValor() == 15.50);
+//		System.out.println(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
+//		System.out.println(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
+		Assert.assertTrue(locacao.getValor() == 15.50);
+		Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
+		Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
 
 	}
 }
