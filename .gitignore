@@ -115,7 +115,7 @@ ehthumbs_vista.db
 $RECYCLE.BIN/
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
