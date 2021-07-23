@@ -1,5 +1,7 @@
 package br.net.gradual.services;
 
+import br.net.gradual.excecptions.FilmeSemEstoqueException;
+import br.net.gradual.excecptions.LocadoraException;
 import br.net.gradual.model.Filme;
 import br.net.gradual.model.Locacao;
 import br.net.gradual.model.Usuario;
@@ -44,7 +46,6 @@ public class LocacaoServiceTest {
         }
     }
 
-
     @Test(expected = Exception.class)
     public void testeLocacao_filmeSemEstoque() throws Exception {
         //cenário
@@ -57,33 +58,31 @@ public class LocacaoServiceTest {
     }
 
     @Test
-    public void testeLocacao_filmeSemEstoque2(){
+    public void testeLocacao_usuarioVazio() throws FilmeSemEstoqueException {
         //cenário
         LocacaoService service = new LocacaoService();
-        Usuario usuario = new Usuario("user");
-        Filme filme = new Filme("One", 0, 15.50);
+        Filme filme = new Filme("One", 10, 15.50);
 
         //ação
         try {
-            Locacao locacao = service.alugarFilme(usuario, filme);
-            Assert.fail("Deveria ser lançada uma exceção");
-        } catch (Exception e) {
-            assertEquals(e.getMessage(), LocacaoService.FILME_SEM_ESTOQUE_ERROR_MESSAGE);
+            Locacao locacao = service.alugarFilme(null, filme);
+            Assert.fail();
+        } catch (LocadoraException e) {
+            assertEquals(e.getMessage(), LocacaoService.SEM_USUARIO_ERROR_MESSAGE);
         }
     }
 
     @Test
-    public void testeLocacao_filmeSemEstoque23() throws Exception {
+    public void testeLocacao_filmeVazio() throws FilmeSemEstoqueException, LocadoraException {
         //cenário
         LocacaoService service = new LocacaoService();
         Usuario usuario = new Usuario("user");
-        Filme filme = new Filme("One", 0, 15.50);
 
-        exception.expect(Exception.class);
-        exception.expectMessage(LocacaoService.FILME_SEM_ESTOQUE_ERROR_MESSAGE);
+        exception.expect(LocadoraException.class);
+        exception.expectMessage(LocacaoService.SEM_FILME_ERROR_MESSAGE);
 
         //ação
-        Locacao locacao = service.alugarFilme(usuario, filme);
-
+        Locacao locacao = service.alugarFilme(usuario, null);
     }
+
 }
