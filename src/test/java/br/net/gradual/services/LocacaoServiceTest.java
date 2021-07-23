@@ -6,7 +6,9 @@ import br.net.gradual.model.Usuario;
 import br.net.gradual.utils.DataUtils;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ErrorCollector;
 
 import java.util.Date;
 
@@ -15,8 +17,11 @@ import static org.junit.Assert.*;
 
 public class LocacaoServiceTest {
 
+    @Rule
+    public ErrorCollector error = new ErrorCollector();
+
     @Test
-    public void teste() {
+    public void testeLocacao() {
         //cenário
         LocacaoService service = new LocacaoService();
         Usuario usuario = new Usuario("user");
@@ -26,9 +31,8 @@ public class LocacaoServiceTest {
         Locacao locacao = service.alugarFilme(usuario, filme);
 
         //verificação
-        assertEquals(locacao.getValor(), is(not(20.50) ));
-        assertEquals(locacao.getValor(), is( equalTo(15.50)) );
-        assertEquals(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-        assertEquals(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)), is(true));
+        error.checkThat(locacao.getValor(), is( equalTo(10)) );
+        error.checkThat(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()), is(false));
+        error.checkThat(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)), is(true));
     }
 }
