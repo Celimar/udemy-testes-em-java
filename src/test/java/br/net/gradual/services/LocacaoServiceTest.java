@@ -4,11 +4,14 @@ import br.net.gradual.model.Filme;
 import br.net.gradual.model.Locacao;
 import br.net.gradual.model.Usuario;
 import br.net.gradual.utils.DataUtils;
-import junit.framework.TestCase;
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Date;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 public class LocacaoServiceTest {
 
@@ -23,9 +26,9 @@ public class LocacaoServiceTest {
         Locacao locacao = service.alugarFilme(usuario, filme);
 
         //verificação
-        Assert.assertEquals(15.50, locacao.getValor(),  0.01);
-        Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
-        Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
-
+        assertEquals(locacao.getValor(), is(not(20.50) ));
+        assertEquals(locacao.getValor(), is( equalTo(15.50)) );
+        assertEquals(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
+        assertEquals(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)), is(true));
     }
 }
