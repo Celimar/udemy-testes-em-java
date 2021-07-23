@@ -25,14 +25,20 @@ public class LocacaoServiceTest {
         //cenário
         LocacaoService service = new LocacaoService();
         Usuario usuario = new Usuario("user");
-        Filme filme = new Filme("One", 5, 15.50);
+        Filme filme = new Filme("One", 0, 15.50);
 
         //ação
-        Locacao locacao = service.alugarFilme(usuario, filme);
+        Locacao locacao = null;
+        try {
+            locacao = service.alugarFilme(usuario, filme);
+            //verificação
+            error.checkThat(locacao.getValor(), is( equalTo(10)) );
+            error.checkThat(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()), is(false));
+            error.checkThat(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)), is(true));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Não deveria lançar exceção");
+        }
 
-        //verificação
-        error.checkThat(locacao.getValor(), is( equalTo(10)) );
-        error.checkThat(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()), is(false));
-        error.checkThat(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)), is(true));
     }
 }
