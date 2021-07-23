@@ -8,10 +8,12 @@ import java.util.Date;
 import static br.net.gradual.utils.DataUtils.adicionarDias;
 
 public class LocacaoService {
-	
+
+	public static final String FILME_SEM_ESTOQUE_ERROR_MESSAGE = "Filme sem estoque";
+
 	public Locacao alugarFilme(Usuario usuario, Filme filme) throws Exception {
 		if (filme.getEstoque() == 0 ) {
-			throw new Exception("Filme sem estoque");
+			throw new Exception(FILME_SEM_ESTOQUE_ERROR_MESSAGE);
 		}
 		Locacao locacao = new Locacao();
 		locacao.setFilme(filme);
