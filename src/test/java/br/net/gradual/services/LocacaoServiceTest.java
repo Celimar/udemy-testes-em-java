@@ -13,7 +13,9 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -31,13 +33,13 @@ public class LocacaoServiceTest {
         //cen√°rio
         LocacaoService service = new LocacaoService();
         Usuario usuario = new Usuario("user");
-        Filme filme = new Filme("One", 0, 15.50);
+        List<Filme> filmes = Arrays.asList( new Filme("One", 0, 15.50) );
 
         //a√ß√£o
         Locacao locacao = null;
         try {
-            locacao = service.alugarFilme(usuario, filme);
-            //verifica√ß√£o
+            locacao = service.alugarFilme(usuario, filmes);
+            //verificaÁ„o
             error.checkThat(locacao.getValor(), is( equalTo(10)) );
             error.checkThat(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()), is(false));
             error.checkThat(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)), is(true));
@@ -51,21 +53,21 @@ public class LocacaoServiceTest {
         //cen√°rio
         LocacaoService service = new LocacaoService();
         Usuario usuario = new Usuario("user");
-        Filme filme = new Filme("One", 0, 15.50);
+        List<Filme> filmes = Arrays.asList( new Filme("One", 0, 15.50) );
 
-        //a√ß√£o
-        Locacao locacao = service.alugarFilme(usuario, filme);
+        //aÁ„o
+        Locacao locacao = service.alugarFilme(usuario, filmes);
     }
 
     @Test
     public void testeLocacao_usuarioVazio() throws FilmeSemEstoqueException {
         //cen√°rio
         LocacaoService service = new LocacaoService();
-        Filme filme = new Filme("One", 10, 15.50);
+        List<Filme> filmes = Arrays.asList( new Filme("One", 0, 15.50) );
 
-        //a√ß√£o
+        //aÁ„oß√£o
         try {
-            Locacao locacao = service.alugarFilme(null, filme);
+            Locacao locacao = service.alugarFilme(null, filmes);
             Assert.fail();
         } catch (LocadoraException e) {
             assertEquals(e.getMessage(), LocacaoService.SEM_USUARIO_ERROR_MESSAGE);
